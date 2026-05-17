@@ -1,515 +1,481 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Wholesaler OS</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet"/>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; background: #06050f; color: #e8e0ff; font-family: 'DM Sans', sans-serif; }
-  #root { min-height: 100vh; }
-  input::placeholder { color: #2a2448; }
-  input { color-scheme: dark; }
-  ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: #08071a; } ::-webkit-scrollbar-thumb { background: #2a2040; border-radius: 4px; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
-  .fade-up { animation: fadeUp 0.4s ease; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:#06050f;color:#e8e0ff;font-family:'DM Sans',sans-serif;font-size:14px}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#08071a}::-webkit-scrollbar-thumb{background:#2a2040;border-radius:4px}
+input,button,select,textarea{font-family:'DM Sans',sans-serif}
+input::placeholder,textarea::placeholder{color:#2a2448}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.fade-up{animation:fadeUp .4s ease}
+#topbar{position:sticky;top:0;z-index:100;background:rgba(8,7,26,.97);border-bottom:1px solid #1a1630;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.dot-p{width:8px;height:8px;border-radius:50%;background:#7c6fff;box-shadow:0 0 10px #7c6fff}
+.dot-g{width:6px;height:6px;border-radius:50%;background:#00d084}
+.brand{font-weight:800;font-size:15px}.brand span{color:#7c6fff}
+.tr{display:flex;gap:6px;align-items:center;color:#3a3060;font-size:11px}
+#app{max-width:640px;margin:0 auto;padding:20px 14px 100px}
+#tabbar{display:flex;background:#08071a;border-radius:12px;padding:4px;margin-bottom:22px;gap:3px}
+.tb{flex:1;padding:9px 2px;border-radius:9px;border:none;cursor:pointer;background:transparent;border-top:1px solid transparent;color:#3a3060;font-weight:700;font-size:9px;letter-spacing:.3px;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:3px}
+.tb .ti{font-size:14px}
+.tb.active{background:linear-gradient(135deg,#7c6fff22,#c084fc22);border-top:1px solid #7c6fff66;color:#c084fc}
+.tc{display:none}.tc.active{display:block}
+.card{background:rgba(255,255,255,.025);border:1px solid #1e1a3a;border-radius:14px;padding:18px;margin-bottom:14px}
+.inp{width:100%;background:#0a0914;border:1px solid #1e1a3a;border-radius:8px;padding:9px 12px;color:#e8e0ff;font-size:13px;outline:none;transition:border-color .2s}
+.inp:focus{border-color:#7c6fff}
+.field{margin-bottom:13px}
+.lbl{display:block;color:#4a4070;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}
+.req{color:#7c6fff}
+.btn{border:none;border-radius:10px;padding:11px 16px;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .2s;display:inline-flex;align-items:center;gap:6px;justify-content:center}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.bp{background:linear-gradient(135deg,#7c6fff,#c084fc);color:#fff}
+.bs{background:rgba(0,208,132,.15);border:1px solid #00d08466;color:#00d084}
+.bd{background:#2a0a0a;color:#ff4d4d}
+.bg{background:#1a1630;color:#8a80c0;border:1px solid #2a2040}
+.bsm{padding:5px 10px;font-size:11px;border-radius:6px}
+.bfw{width:100%}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.sc{background:rgba(255,255,255,.025);border-radius:14px;padding:13px 15px;display:flex;align-items:center;gap:12px}
+.sv{font-size:20px;font-weight:800;line-height:1}
+.sl{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-top:3px;color:#3a3060}
+.pw{height:3px;background:#1a1630;border-radius:2px;overflow:hidden;margin-top:8px}
+.pb{height:100%;border-radius:2px;background:linear-gradient(90deg,#7c6fff,#c084fc);transition:width .5s}
+.st{color:#4a4070;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:14px}
+.al{border-radius:12px;padding:14px 16px;margin-bottom:18px;display:flex;gap:12px;align-items:flex-start}
+.ar{background:rgba(255,77,77,.06);border:1px solid #ff4d4d44}
+.ag{background:rgba(0,208,132,.06);border:1px solid #00d08444}
+.ay{background:rgba(245,166,35,.06);border:1px solid #f5a62344}
+.eb{color:#ff4d4d;font-size:13px;margin-bottom:12px;padding:8px 12px;background:rgba(255,77,77,.08);border-radius:8px;display:none}
+.stb{display:flex;background:#08071a;border-radius:10px;padding:3px;margin-bottom:16px;gap:3px}
+.stbtn{flex:1;padding:8px;border-radius:8px;border:none;cursor:pointer;background:transparent;color:#3a3060;font-weight:700;font-size:12px;transition:all .2s}
+.stbtn.active{background:#1e1a3a;color:#c084fc}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;z-index:200;padding:16px}
+.mo.open{display:flex}
+.mb{background:#0c0b1e;border:1px solid #2a2040;border-radius:16px;padding:22px;width:100%;max-width:440px;max-height:90vh;overflow-y:auto}
+.mt{font-size:18px;font-weight:800;color:#e8e0ff;margin-bottom:18px}
+.sbtns{display:flex;gap:5px;flex-wrap:wrap}
+.sbtn{padding:6px 10px;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;background:#1a1630;color:#4a4070;border:1px solid #2a2040;transition:all .2s}
+.sbtn.active{background:#7c6fff;color:#fff;border-color:#7c6fff}
+.ai{border-bottom:1px solid #1a1630}
+.ab{width:100%;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:11px 0;color:#8a80c0;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+.aic{color:#7c6fff;font-size:16px;transition:transform .2s;line-height:1}
+.abd{padding-bottom:12px;display:none}
+.abd.open{display:block}
+.ec{border:1px solid #1e1a3a;border-radius:12px;margin-bottom:10px;overflow:hidden}
+.eh{width:100%;background:none;border:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;gap:10px;text-align:left}
+.ebo{padding:0 16px 16px;border-top:1px solid #1a1630;display:none}
+.ebo.open{display:block}
+.topb{font-size:8px;font-weight:800;letter-spacing:1.5px;padding:3px 6px;border-radius:4px;text-transform:uppercase;flex-shrink:0;color:#000}
+.ep{height:4px;background:#1a1630;border-radius:2px;margin-top:4px;overflow:hidden}
+.epb{height:100%;border-radius:2px}
+.dc{background:rgba(255,255,255,.02);border:1px solid #1e1a3a;border-radius:12px;padding:13px 15px;margin-bottom:10px}
+.dz{border:2px dashed #2a2040;border-radius:12px;padding:32px 20px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(124,111,255,.03)}
+.dz:hover,.dz.drag-over{border-color:#7c6fff;background:rgba(124,111,255,.08)}
+.twrap{overflow-x:auto;border-radius:10px;border:1px solid #1e1a3a;margin-bottom:16px}
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{background:#0d0c22;color:#4a4070;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 12px;text-align:left;border-bottom:1px solid #1e1a3a;white-space:nowrap}
+.tbl td{padding:9px 12px;border-bottom:1px solid #1a1630;color:#c0b8e0}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(124,111,255,.04)}
+.cmapper{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.cmi{background:#0a0914;border:1px solid #1e1a3a;border-radius:8px;padding:10px 12px}
+.cmsel{width:100%;background:#06050f;border:1px solid #2a2040;border-radius:6px;padding:6px 8px;color:#e8e0ff;font-size:12px;outline:none}
+.rb{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.row{display:flex;gap:8px;align-items:center}
+.f1{flex:1}
+.empty{text-align:center;padding:28px 16px;color:#3a3060;font-size:13px}
+.ei{font-size:32px;margin-bottom:10px}
+.totr{border-top:1px solid #1a1630;padding-top:12px;margin-top:8px;display:flex;justify-content:space-between;align-items:center}
+.snw{font-family:'Bebas Neue',sans-serif;font-size:44px;line-height:1}
+.stag{font-size:11px;font-weight:700;letter-spacing:2px}
+.wo{background:rgba(245,166,35,.06);border:1px solid #f5a62333;border-radius:8px;padding:9px 12px;display:flex;gap:8px;margin-top:12px}
+.wot{color:#a07840;font-size:12px;line-height:1.6}
+.htag{color:#7c6fff;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px}
+.htitle{font-family:'Bebas Neue',sans-serif;font-size:36px;color:#fff;line-height:1.1;letter-spacing:1px}
+.hgrad{background:linear-gradient(90deg,#7c6fff,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hsub{color:#3a3060;font-size:12px;margin-top:6px;margin-bottom:22px}
+.stpc{min-width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0}
 </style>
 </head>
 <body>
-<div id="root"></div>
-<script type="text/babel">
-const { useState, useEffect } = React;
+<div id="topbar">
+  <div class="row"><div class="dot-p"></div><span class="brand">Wholesaler <span>OS</span></span></div>
+  <div class="tr"><div class="dot-g"></div>AI Powered</div>
+</div>
+<div id="app">
+  <div id="tabbar">
+    <button class="tb active" onclick="switchTab('overview')"><span class="ti">🏠</span>Overview</button>
+    <button class="tb" onclick="switchTab('import')"><span class="ti">📥</span>Import</button>
+    <button class="tb" onclick="switchTab('leads')"><span class="ti">🔍</span>Lead AI</button>
+    <button class="tb" onclick="switchTab('exits')"><span class="ti">🚪</span>Exit AI</button>
+    <button class="tb" onclick="switchTab('pipeline')"><span class="ti">📋</span>Pipeline</button>
+  </div>
 
-// ── CONSTANTS ──────────────────────────────────────────────────────────────
-const STAGES = ["Marketing","Lead In","Under Contract","Buyer Found","Closed"];
-const STRATEGY_COLORS = {"Assignment":"#f5a623","Wholetailing":"#00d084","Novation Agreement":"#4d9fff","Subject-To":"#c84bff","Co-Wholesaling":"#ff4d9f"};
-const STRATEGY_ICONS  = {"Assignment":"📋","Wholetailing":"🏡","Novation Agreement":"🤝","Subject-To":"🔑","Co-Wholesaling":"👥"};
+  <!-- OVERVIEW -->
+  <div id="tab-overview" class="tc active">
+    <div class="htag">Command Center</div>
+    <div class="htitle">Wholesaler <span class="hgrad">OS</span></div>
+    <div class="hsub">Your full wholesaling brain in one place</div>
+    <div class="sg" id="stat-grid"></div>
+    <div id="runway-alert"></div>
+    <div id="recent-section"></div>
+  </div>
 
-const LEAD_PROMPT = `You are an expert real estate wholesaling lead analyst. Analyze the lead and respond ONLY in this exact JSON (no markdown, no backticks):
+  <!-- IMPORT -->
+  <div id="tab-import" class="tc">
+    <div class="st">CSV Lead Importer</div>
+    <div id="step1">
+      <div class="card">
+        <div class="al ay" style="margin-bottom:16px">
+          <span style="font-size:20px">💡</span>
+          <div>
+            <div style="color:#f5a623;font-weight:700;font-size:13px;margin-bottom:3px">Getting your PropStream CSV</div>
+            <div style="color:#7a6040;font-size:12px;line-height:1.6">PropStream: filter list → <strong style="color:#c0a060">Save</strong> → <strong style="color:#c0a060">My Lists</strong> → <strong style="color:#c0a060">Export</strong>. If locked on trial, just paste the data you see on screen below — owner name and address is enough to get started.</div>
+          </div>
+        </div>
+        <div class="dz" id="drop-zone" onclick="document.getElementById('file-inp').click()">
+          <div style="font-size:36px;margin-bottom:12px">📂</div>
+          <div style="color:#c084fc;font-weight:700;font-size:15px;margin-bottom:6px">Drop CSV here or click to browse</div>
+          <div style="color:#3a3060;font-size:12px;line-height:1.6">Supports PropStream exports and any CSV with owner/address columns</div>
+          <input type="file" id="file-inp" accept=".csv" style="display:none" onchange="handleFile(event)"/>
+        </div>
+        <div style="text-align:center;color:#3a3060;font-size:12px;margin:14px 0">— or paste CSV text —</div>
+        <div class="field">
+          <label class="lbl">Paste CSV data here</label>
+          <textarea class="inp" id="csv-paste" rows="7" placeholder="Owner Name,Address,City,State,Zip,Phone&#10;John Smith,123 Oak St,Plano,TX,75025,(214)555-0100&#10;Jane Doe,456 Pine Ave,Dallas,TX,75044,(972)555-0200" style="resize:vertical;line-height:1.5"></textarea>
+        </div>
+        <button class="btn bp bfw" onclick="parseCSV()">Parse CSV →</button>
+      </div>
+    </div>
+
+    <div id="step2" style="display:none">
+      <div class="card">
+        <div class="st">Map Your Columns</div>
+        <div style="color:#5a5080;font-size:13px;margin-bottom:16px">Found <strong id="col-count" style="color:#c084fc"></strong> columns. Tell us which is which:</div>
+        <div class="cmapper" id="col-mapper"></div>
+        <div class="rb"><button class="btn bg" onclick="goStep(1)">← Back</button><button class="btn bp" onclick="previewImport()">Preview →</button></div>
+      </div>
+    </div>
+
+    <div id="step3" style="display:none">
+      <div class="card">
+        <div class="rb" style="margin-bottom:14px">
+          <div><div class="st" style="margin-bottom:2px">Preview</div><div style="color:#5a5080;font-size:12px"><span id="prev-count" style="color:#c084fc;font-weight:700"></span> leads ready</div></div>
+          <button class="btn bg bsm" onclick="goStep(2)">← Remap</button>
+        </div>
+        <div class="twrap"><table class="tbl" id="prev-table"></table></div>
+        <div class="row" style="gap:10px">
+          <button class="btn bg f1" onclick="goStep(1)">Start Over</button>
+          <button class="btn bs f1" onclick="importLeads()">✓ Import All to Pipeline</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="step4" style="display:none">
+      <div class="card" style="text-align:center;padding:36px 20px">
+        <div style="font-size:48px;margin-bottom:14px">🎉</div>
+        <div style="color:#00d084;font-size:22px;font-weight:800;margin-bottom:8px"><span id="imp-count"></span> Leads Imported!</div>
+        <div style="color:#3a3060;font-size:13px;margin-bottom:22px;line-height:1.7">They're in your Pipeline now. Head to <strong style="color:#c084fc">Lead AI</strong> to score each one and get a custom cold call script.</div>
+        <div class="row" style="justify-content:center;flex-wrap:wrap;gap:10px">
+          <button class="btn bp" onclick="switchTab('pipeline')">Go to Pipeline →</button>
+          <button class="btn bg" onclick="goStep(1)">Import Another List</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEAD AI -->
+  <div id="tab-leads" class="tc">
+    <div class="st">Lead Intelligence Agent</div>
+    <div class="card">
+      <div class="field"><label class="lbl">Owner Name <span class="req">*</span></label><input class="inp" id="l-name" placeholder="John Smith"/></div>
+      <div class="field"><label class="lbl">Property Address <span class="req">*</span></label><input class="inp" id="l-addr" placeholder="123 Oak St, Plano TX 75025"/></div>
+      <div class="field"><label class="lbl">Estimated Equity</label><input class="inp" id="l-eq" placeholder="65% / $120k"/></div>
+      <div class="field"><label class="lbl">Years Owned</label><input class="inp" id="l-yr" placeholder="12 years"/></div>
+      <div class="field"><label class="lbl">Occupancy</label><input class="inp" id="l-occ" placeholder="Absentee / Vacant / Owner-occupied"/></div>
+      <div class="field"><label class="lbl">Distress Flags</label><input class="inp" id="l-dist" placeholder="Tax delinquent, tired landlord, pre-foreclosure..."/></div>
+      <div class="field"><label class="lbl">Property Condition</label><input class="inp" id="l-cond" placeholder="Needs major repairs, cosmetic only..."/></div>
+      <div class="field"><label class="lbl">Other Notes</label><input class="inp" id="l-notes" placeholder="Any extra context..."/></div>
+      <div id="lead-err" class="eb"></div>
+      <button class="btn bp bfw" id="lead-btn" onclick="analyzeLead()">⚡ Analyze Lead</button>
+    </div>
+    <div id="lead-result" style="display:none"></div>
+  </div>
+
+  <!-- EXIT AI -->
+  <div id="tab-exits" class="tc">
+    <div class="st">Exit Strategy Matcher</div>
+    <div class="card">
+      <div class="field"><label class="lbl">Property Address <span class="req">*</span></label><input class="inp" id="e-addr" placeholder="123 Oak St, Plano TX 75025"/></div>
+      <div class="field"><label class="lbl">ARV ($)</label><input class="inp" id="e-arv" type="number" placeholder="250000"/></div>
+      <div class="field"><label class="lbl">Seller Asking ($)</label><input class="inp" id="e-ask" type="number" placeholder="140000"/></div>
+      <div class="field"><label class="lbl">Est. Repairs ($)</label><input class="inp" id="e-rep" type="number" placeholder="45000"/></div>
+      <div class="field"><label class="lbl">Seller's Situation</label><input class="inp" id="e-sit" placeholder="Pre-foreclosure, inherited, tired landlord..."/></div>
+      <div class="field"><label class="lbl">Mortgage Balance</label><input class="inp" id="e-mort" placeholder="85000 or paid off"/></div>
+      <div class="field"><label class="lbl">Property Condition</label><input class="inp" id="e-cond" placeholder="Full rehab / cosmetic / move-in ready"/></div>
+      <div class="field"><label class="lbl">Your Buyer Network</label><input class="inp" id="e-buy" placeholder="Strong / limited / none yet"/></div>
+      <div class="field"><label class="lbl">Other Notes</label><input class="inp" id="e-notes" placeholder="Vacant, HOA, title issues..."/></div>
+      <div id="exit-err" class="eb"></div>
+      <button class="btn bp bfw" id="exit-btn" onclick="analyzeExit()">⚡ Find Best Exit</button>
+    </div>
+    <div id="exit-result" style="display:none"></div>
+  </div>
+
+  <!-- PIPELINE -->
+  <div id="tab-pipeline" class="tc">
+    <div class="st">Cash Conversion Tracker</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px" id="pipe-stats"></div>
+    <div class="stb">
+      <button class="stbtn active" id="sub-d-btn" onclick="setSubTab('d')">📋 Deals</button>
+      <button class="stbtn" id="sub-e-btn" onclick="setSubTab('e')">💸 Expenses</button>
+    </div>
+    <div id="sub-d">
+      <div class="rb" style="margin-bottom:12px">
+        <span id="deal-cnt" style="color:#3a3060;font-size:12px"></span>
+        <button class="btn bp bsm" onclick="openModal(null)">+ Add Deal</button>
+      </div>
+      <div id="deals-list"></div>
+    </div>
+    <div id="sub-e" style="display:none">
+      <div class="card">
+        <div class="st">Add Expense</div>
+        <div class="row" style="flex-wrap:wrap;gap:8px">
+          <div class="f1" style="min-width:120px"><input class="inp" id="exp-lbl" placeholder="PropStream, skip tracing..."/></div>
+          <div style="width:90px"><input class="inp" id="exp-amt" type="number" placeholder="$"/></div>
+          <button class="btn bp" onclick="addExp()">Add</button>
+        </div>
+      </div>
+      <div id="exp-list"></div>
+      <div class="totr" id="exp-total"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Deal Modal -->
+<div class="mo" id="deal-modal">
+  <div class="mb">
+    <div class="mt" id="modal-title">Add Deal</div>
+    <input type="hidden" id="modal-id"/>
+    <div class="field"><label class="lbl">Name / Address</label><input class="inp" id="m-name" placeholder="123 Oak St"/></div>
+    <div class="field"><label class="lbl">Start Date</label><input class="inp" id="m-date" type="date"/></div>
+    <div class="field"><label class="lbl">Marketing Spent ($)</label><input class="inp" id="m-spent" type="number" placeholder="0"/></div>
+    <div class="field"><label class="lbl">Expected Fee ($)</label><input class="inp" id="m-fee" type="number" placeholder="8000"/></div>
+    <div class="field"><label class="lbl">Phone</label><input class="inp" id="m-phone" placeholder="(214) 555-0100"/></div>
+    <div class="field"><label class="lbl">Notes</label><input class="inp" id="m-notes" placeholder="Absentee, tired landlord..."/></div>
+    <div class="field"><label class="lbl">Stage</label><div class="sbtns" id="modal-stages"></div></div>
+    <div class="row" style="margin-top:18px;gap:10px">
+      <button class="btn bg f1" onclick="closeModal()">Cancel</button>
+      <button class="btn bp" style="flex:2" onclick="saveDeal()">Save Deal</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const STAGES=["Marketing","Lead In","Under Contract","Buyer Found","Closed"];
+const SC={Assignment:"#f5a623",Wholetailing:"#00d084","Novation Agreement":"#4d9fff","Subject-To":"#c84bff","Co-Wholesaling":"#ff4d9f"};
+const SI={Assignment:"📋",Wholetailing:"🏡","Novation Agreement":"🤝","Subject-To":"🔑","Co-Wholesaling":"👥"};
+const LP=`You are an expert real estate wholesaling lead analyst. Respond ONLY in this exact JSON (no markdown):
 {"score":0,"score_label":"","motivation_reasons":[],"watch_outs":[],"script":{"opener":"","value_prop":"","qualifying_questions":[],"objection_handler":"","close":""}}
-Score 1-10. score_label: Hot/Warm/Cold. 8-10=tax delinquent/pre-foreclosure/vacant/inherited. 5-7=absentee/high equity. 1-4=owner-occupied/low equity. Tailor script to the specific situation. Never mention "wholesaling" to seller.`;
-
-const EXIT_PROMPT = `You are an expert real estate wholesaling strategist. Respond ONLY in this exact JSON (no markdown, no backticks):
+Score 1-10. Hot(8-10)=tax delinquent/pre-foreclosure/vacant/inherited. Warm(5-7)=absentee/high equity. Cold(1-4)=owner-occupied/low equity. Tailor script to the specific situation. Never say "wholesaling" to seller.`;
+const EP=`You are an expert real estate wholesaling strategist. Respond ONLY in this exact JSON (no markdown):
 {"ranked_exits":[{"strategy":"","fit_score":0,"why_it_fits":"","how_to_execute":[],"watch_out":""}],"dead_ends":[],"best_first_move":""}
-Rank ALL 5: Assignment, Wholetailing, Novation Agreement, Subject-To, Co-Wholesaling. Move genuinely unsuitable ones to dead_ends. Be specific to the deal data.`;
+Rank ALL 5: Assignment, Wholetailing, Novation Agreement, Subject-To, Co-Wholesaling. Move unsuitable to dead_ends. Be specific to deal data.`;
 
-const fmtMoney = n => `$${Math.abs(Number(n)||0).toLocaleString()}`;
-const daysSince = d => d ? Math.max(0,Math.floor((Date.now()-new Date(d).getTime())/86400000)) : 0;
-const uid = () => Date.now()+Math.random();
+let deals=[], expenses=[{id:uid(),label:"PropStream",amount:99,date:td()}];
+let mStage=0, csvRows=[], csvHdrs=[], colMap={};
 
-// ── API ────────────────────────────────────────────────────────────────────
-async function callClaude(system, userMsg) {
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method:"POST", headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({ model:"claude-sonnet-4-20250514", max_tokens:1000, system, messages:[{role:"user",content:userMsg}] })
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2)}
+function td(){return new Date().toISOString().split("T")[0]}
+function fm(n){return "$"+Math.abs(Number(n)||0).toLocaleString()}
+function ds(d){return d?Math.max(0,Math.floor((Date.now()-new Date(d).getTime())/86400000)):0}
+function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function g(id){return document.getElementById(id)}
+
+async function api(sys,msg){
+  const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:sys,messages:[{role:"user",content:msg}]})});
+  const d=await r.json();
+  const t=(d.content||[]).find(b=>b.type==="text")?.text||"";
+  return JSON.parse(t.replace(/```json|```/g,"").trim());
+}
+
+// ── TABS
+function switchTab(t){
+  document.querySelectorAll(".tb").forEach((b,i)=>b.classList.toggle("active",["overview","import","leads","exits","pipeline"][i]===t));
+  document.querySelectorAll(".tc").forEach(c=>c.classList.toggle("active",c.id==="tab-"+t));
+  if(t==="overview")renderOverview();
+  if(t==="pipeline")renderPipeline();
+}
+function setSubTab(t){
+  g("sub-d-btn").classList.toggle("active",t==="d");
+  g("sub-e-btn").classList.toggle("active",t==="e");
+  g("sub-d").style.display=t==="d"?"block":"none";
+  g("sub-e").style.display=t==="e"?"block":"none";
+}
+
+// ── OVERVIEW
+function renderOverview(){
+  const spent=expenses.reduce((s,e)=>s+Number(e.amount||0),0)+deals.reduce((s,d)=>s+Number(d.marketingSpent||0),0);
+  const pipe=deals.filter(d=>d.stage<4).reduce((s,d)=>s+Number(d.expectedFee||0),0);
+  const closed=deals.filter(d=>d.stage===4).reduce((s,d)=>s+Number(d.expectedFee||0),0);
+  const hot=deals.filter(d=>d.leadScore>=8).length;
+  const avg=deals.length?Math.round(deals.reduce((s,d)=>s+ds(d.startDate),0)/deals.length):0;
+  g("stat-grid").innerHTML=[{l:"Total Spent",v:fm(spent),c:"#ff4d6d",i:"💸"},{l:"Pipeline",v:fm(pipe),c:"#f5a623",i:"📊"},{l:"Closed",v:fm(closed),c:"#00d084",i:"✅"},{l:"Hot Leads",v:hot,c:"#c084fc",i:"🔥"},{l:"Avg Age",v:avg+"d",c:"#4d9fff",i:"⏱"},{l:"Deals",v:deals.length,c:"#e8e0ff",i:"🎯"}].map(s=>`<div class="sc" style="border:1px solid ${s.c}44"><span style="font-size:20px">${s.i}</span><div><div class="sv" style="color:${s.c}">${s.v}</div><div class="sl">${s.l}</div></div></div>`).join("");
+  const tight=spent>400;
+  g("runway-alert").innerHTML=`<div class="al ${tight?"ar":"ag"}"><span style="font-size:22px">${tight?"⚠️":"✅"}</span><div><div style="color:${tight?"#ff4d4d":"#00d084"};font-weight:700;font-size:13px;margin-bottom:3px">${tight?"Budget getting tight":"Cash runway looks healthy"}</div><div style="color:#3a3060;font-size:12px;line-height:1.6">Keep $500+ unspent. Deals take 45–75 days — you need 3 months of marketing budget in reserve.</div></div></div>`;
+  const rec=[...deals].slice(-3).reverse();
+  g("recent-section").innerHTML=deals.length===0?`<div class="card"><div class="empty"><div class="ei">🏘️</div>No deals yet — import your PropStream list to get started</div></div>`:`<div class="st">Recent Deals</div>`+rec.map(d=>`<div class="dc"><div class="rb"><div><div style="color:#e8e0ff;font-weight:700;font-size:14px">${esc(d.name||"Unnamed")}</div><div style="color:#3a3060;font-size:12px;margin-top:2px">${STAGES[d.stage]} · ${ds(d.startDate)}d</div></div><div style="text-align:right">${d.leadScore?`<div style="color:${d.leadScore>=8?"#ff4d4d":d.leadScore>=5?"#f5a623":"#4d9fff"};font-weight:800;font-size:12px">Score: ${d.leadScore}/10</div>`:""}<div style="color:#00d084;font-size:12px">${fm(d.expectedFee)}</div></div></div><div class="pw"><div class="pb" style="width:${(d.stage/4)*100}%"></div></div></div>`).join("");
+}
+
+// ── CSV IMPORT
+const HINTS={owner:["owner","name","owner name","seller"],address:["address","property address","street","situs"],city:["city"],state:["state"],zip:["zip","zipcode","postal"],phone:["phone","mobile","cell","telephone"],equity:["equity","equity %"],distress:["distress","flags","type","list type","status"],value:["value","avm","estimated value","market value"]};
+function guessCol(h){const lh=h.toLowerCase().trim();for(const[f,hs]of Object.entries(HINTS)){if(hs.some(hint=>lh.includes(hint)))return f;}return "";}
+function parseRow(row){const cols=[];let cur="",inQ=false;for(let i=0;i<row.length;i++){const c=row[i];if(c==='"'){inQ=!inQ;}else if(c===','&&!inQ){cols.push(cur.trim());cur="";}else cur+=c;}cols.push(cur.trim());return cols;}
+function getCV(row,k){const i=colMap[k];return(i!=null&&i>=0&&i<row.length)?row[i]:"";}
+
+const dz=g("drop-zone");
+dz.addEventListener("dragover",e=>{e.preventDefault();dz.classList.add("drag-over")});
+dz.addEventListener("dragleave",()=>dz.classList.remove("drag-over"));
+dz.addEventListener("drop",e=>{e.preventDefault();dz.classList.remove("drag-over");const f=e.dataTransfer.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{g("csv-paste").value=ev.target.result;parseCSV()};r.readAsText(f);});
+function handleFile(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{g("csv-paste").value=ev.target.result;parseCSV()};r.readAsText(f);}
+
+function parseCSV(){
+  const text=g("csv-paste").value.trim();
+  if(!text){alert("Paste or upload CSV data first.");return;}
+  const lines=text.split(/\r?\n/).filter(l=>l.trim());
+  if(lines.length<2){alert("Need at least a header row and one data row.");return;}
+  csvHdrs=parseRow(lines[0]);
+  csvRows=lines.slice(1).map(l=>parseRow(l)).filter(r=>r.some(c=>c));
+  colMap={};
+  csvHdrs.forEach((h,i)=>{const g2=guessCol(h);if(g2&&colMap[g2]==null)colMap[g2]=i;});
+  goStep(2);
+}
+
+function goStep(n){
+  [1,2,3,4].forEach(i=>{const el=g("step"+i);if(el)el.style.display=i===n?"block":"none";});
+  if(n===2)renderMapper();
+  if(n===3)renderPreview();
+}
+
+function renderMapper(){
+  g("col-count").textContent=csvHdrs.length;
+  const fields=[{k:"owner",l:"Owner Name"},{k:"address",l:"Property Address"},{k:"city",l:"City"},{k:"state",l:"State"},{k:"zip",l:"Zip"},{k:"phone",l:"Phone Number"},{k:"equity",l:"Equity %"},{k:"distress",l:"Distress Flags"},{k:"value",l:"Property Value"}];
+  g("col-mapper").innerHTML=fields.map(f=>`<div class="cmi"><div style="color:#4a4070;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">${f.l}</div><select class="cmsel" id="cm-${f.k}" onchange="colMap['${f.k}']=this.value===''?null:parseInt(this.value)"><option value="">— skip —</option>${csvHdrs.map((h,i)=>`<option value="${i}"${colMap[f.k]===i?" selected":""}>${esc(h)}</option>`).join("")}</select></div>`).join("");
+}
+
+function syncColMap(){["owner","address","city","state","zip","phone","equity","distress","value"].forEach(k=>{const el=g("cm-"+k);if(el){const v=el.value;colMap[k]=v===""?null:parseInt(v);}});}
+
+function renderPreview(){
+  syncColMap();
+  const prev=csvRows.slice(0,10);
+  g("prev-count").textContent=csvRows.length;
+  g("prev-table").innerHTML=`<thead><tr><th>Owner</th><th>Address</th><th>Phone</th><th>Equity</th><th>Distress</th></tr></thead><tbody>${prev.map(row=>`<tr><td>${esc(getCV(row,"owner")||"—")}</td><td>${esc([getCV(row,"address"),getCV(row,"city"),getCV(row,"state"),getCV(row,"zip")].filter(Boolean).join(", ")||"—")}</td><td>${esc(getCV(row,"phone")||"—")}</td><td>${esc(getCV(row,"equity")||"—")}</td><td>${esc(getCV(row,"distress")||"—")}</td></tr>`).join("")}${csvRows.length>10?`<tr><td colspan="5" style="color:#3a3060;text-align:center;font-style:italic">...and ${csvRows.length-10} more</td></tr>`:""}</tbody>`;
+  goStep(3);
+}
+
+function previewImport(){syncColMap();renderPreview();}
+
+function importLeads(){
+  syncColMap();
+  const newDeals=csvRows.map(row=>{
+    const addr=[getCV(row,"address"),getCV(row,"city"),getCV(row,"state"),getCV(row,"zip")].filter(Boolean).join(", ");
+    const owner=getCV(row,"owner");
+    const notes=[getCV(row,"equity")&&`Equity: ${getCV(row,"equity")}`,getCV(row,"distress")&&`Flags: ${getCV(row,"distress")}`,getCV(row,"value")&&`Value: ${getCV(row,"value")}`].filter(Boolean).join(" | ");
+    return{id:uid(),name:[owner,addr].filter(Boolean).join(" — ")||"Imported Lead",startDate:td(),stage:0,marketingSpent:0,expectedFee:0,phone:getCV(row,"phone"),notes,imported:true};
   });
-  const data = await res.json();
-  const text = data.content?.find(b=>b.type==="text")?.text || "";
-  return JSON.parse(text.replace(/```json|```/g,"").trim());
+  deals=[...deals,...newDeals];
+  g("imp-count").textContent=newDeals.length;
+  goStep(4);
+  renderOverview();
 }
 
-// ── SHARED UI ──────────────────────────────────────────────────────────────
-const IS = { width:"100%", background:"#0a0914", border:"1px solid #1e1a3a", borderRadius:8, padding:"9px 12px", color:"#e8e0ff", fontSize:13, outline:"none", fontFamily:"'DM Sans',sans-serif", transition:"border-color 0.2s" };
+// ── PIPELINE
+function renderPipeline(){
+  const spent=expenses.reduce((s,e)=>s+Number(e.amount||0),0)+deals.reduce((s,d)=>s+Number(d.marketingSpent||0),0);
+  const pipe=deals.filter(d=>d.stage<4).reduce((s,d)=>s+Number(d.expectedFee||0),0);
+  const closed=deals.filter(d=>d.stage===4).reduce((s,d)=>s+Number(d.expectedFee||0),0);
+  g("pipe-stats").innerHTML=[{l:"Spent",v:fm(spent),c:"#ff4d4d"},{l:"Pipeline",v:fm(pipe),c:"#f5a623"},{l:"Closed",v:fm(closed),c:"#00d084"}].map(s=>`<div class="card" style="padding:12px 10px;border-color:${s.c}44;margin-bottom:0"><div class="sv" style="color:${s.c};font-size:17px">${s.v}</div><div class="sl">${s.l}</div></div>`).join("");
+  g("deal-cnt").textContent=`${deals.length} deal${deals.length!==1?"s":""}`;
+  g("deals-list").innerHTML=deals.length===0?`<div class="card"><div class="empty"><div class="ei">📋</div>No deals yet — import a CSV or add manually</div></div>`:deals.map(d=>{const days=ds(d.startDate);const urg=days>75?"#ff4d4d":days>45?"#f5a623":"#00d084";return`<div class="dc"><div class="rb" style="margin-bottom:8px"><div style="flex:1;min-width:0"><div style="color:#e8e0ff;font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(d.name||"Unnamed")}</div>${d.leadScore?`<div style="color:${d.leadScore>=8?"#ff4d4d":d.leadScore>=5?"#f5a623":"#4d9fff"};font-size:11px;font-weight:700;margin-top:2px">Score: ${d.leadScore}/10 · ${esc(d.leadLabel||"")}</div>`:""} ${d.phone?`<div style="color:#4a4070;font-size:11px;margin-top:2px">📞 ${esc(d.phone)}</div>`:""} ${d.notes?`<div style="color:#3a3060;font-size:11px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(d.notes)}</div>`:""}</div><div class="row" style="gap:6px;flex-shrink:0;margin-left:8px"><button class="btn bg bsm" onclick="openModal('${d.id}')">Edit</button><button class="btn bd bsm" onclick="delDeal('${d.id}')">✕</button></div></div><div style="display:flex;justify-content:space-between;margin-bottom:5px">${STAGES.map((s,i)=>`<div style="font-size:8px;color:${i<=d.stage?"#7c6fff":"#2a2040"};font-weight:700;flex:1;text-align:center">${s}</div>`).join("")}</div><div class="pw" style="margin-bottom:8px"><div class="pb" style="width:${(d.stage/4)*100}%"></div></div><div style="display:flex;gap:12px;flex-wrap:wrap"><span style="font-size:12px"><span style="color:#3a3060">Days: </span><span style="color:${urg};font-weight:700">${days}d</span></span><span style="font-size:12px"><span style="color:#3a3060">Spent: </span><span style="color:#ff4d4d;font-weight:700">-${fm(d.marketingSpent)}</span></span><span style="font-size:12px"><span style="color:#3a3060">Fee: </span><span style="color:#00d084;font-weight:700">+${fm(d.expectedFee)}</span></span></div></div>`;}).join("");
+  g("exp-list").innerHTML=expenses.map(e=>`<div style="background:rgba(255,255,255,.02);border:1px solid #1e1a3a;border-radius:10px;padding:11px 15px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center"><div><div style="color:#e8e0ff;font-size:14px;font-weight:600">${esc(e.label)}</div><div style="color:#3a3060;font-size:11px">${e.date}</div></div><div class="row"><span style="color:#ff4d4d;font-weight:700">-${fm(e.amount)}</span><button class="btn bd bsm" style="margin-left:8px" onclick="delExp('${e.id}')">✕</button></div></div>`).join("");
+  g("exp-total").innerHTML=`<span style="color:#3a3060;font-weight:700;font-size:13px">Total Overhead</span><span style="color:#ff4d4d;font-weight:800;font-size:15px">-${fm(expenses.reduce((s,e)=>s+Number(e.amount||0),0))}</span>`;
+}
+function addExp(){const lbl=g("exp-lbl").value.trim(),amt=g("exp-amt").value;if(!lbl||!amt)return;expenses.push({id:uid(),label:lbl,amount:Number(amt),date:td()});g("exp-lbl").value="";g("exp-amt").value="";renderPipeline();}
+function delExp(id){expenses=expenses.filter(e=>e.id!==id);renderPipeline();}
+function delDeal(id){deals=deals.filter(d=>d.id!==id);renderPipeline();renderOverview();}
 
-function Inp({value,onChange,placeholder,type="text",prefix,onFocus,onBlur}) {
-  return (
-    <div style={{position:"relative"}}>
-      {prefix && <span style={{position:"absolute",left:10,top:"50%",transform:"translateY(-50%)",color:"#4a4070",fontSize:13,pointerEvents:"none"}}>{prefix}</span>}
-      <input type={type} value={value} onChange={onChange} placeholder={placeholder}
-        style={{...IS, paddingLeft:prefix?22:12}}
-        onFocus={e=>{e.target.style.borderColor="#7c6fff"; onFocus&&onFocus(e);}}
-        onBlur={e=>{e.target.style.borderColor="#1e1a3a"; onBlur&&onBlur(e);}} />
-    </div>
-  );
+// ── DEAL MODAL
+function openModal(id){
+  const d=id?deals.find(x=>x.id===id):null;
+  mStage=d?d.stage:0;
+  g("modal-title").textContent=d?"Edit Deal":"Add Deal";
+  g("modal-id").value=d?d.id:"";
+  g("m-name").value=d?d.name:"";
+  g("m-date").value=d?d.startDate:td();
+  g("m-spent").value=d?d.marketingSpent:"";
+  g("m-fee").value=d?d.expectedFee:"";
+  g("m-phone").value=d?d.phone||"":"";
+  g("m-notes").value=d?d.notes:"";
+  renderMStages();
+  g("deal-modal").classList.add("open");
+}
+function closeModal(){g("deal-modal").classList.remove("open");}
+function renderMStages(){g("modal-stages").innerHTML=STAGES.map((s,i)=>`<button class="sbtn${i===mStage?" active":""}" onclick="setMS(${i})">${s}</button>`).join("");}
+function setMS(i){mStage=i;renderMStages();}
+function saveDeal(){
+  const id=g("modal-id").value;
+  const d={id:id||uid(),name:g("m-name").value||"Unnamed",startDate:g("m-date").value||td(),stage:mStage,marketingSpent:Number(g("m-spent").value)||0,expectedFee:Number(g("m-fee").value)||0,phone:g("m-phone").value,notes:g("m-notes").value};
+  if(id){deals=deals.map(x=>x.id===id?{...x,...d}:x);}else{deals.push(d);}
+  closeModal();renderPipeline();renderOverview();
 }
 
-function Lbl({children,req}) {
-  return <label style={{display:"block",color:"#4a4070",fontSize:10,fontWeight:700,letterSpacing:2,textTransform:"uppercase",marginBottom:5}}>{children}{req&&<span style={{color:"#7c6fff"}}> *</span>}</label>;
+// ── LEAD AI
+async function analyzeLead(){
+  const name=g("l-name").value.trim(),addr=g("l-addr").value.trim();
+  const err=g("lead-err");
+  if(!name||!addr){err.style.display="block";err.textContent="Owner name and address required.";return;}
+  err.style.display="none";
+  const btn=g("lead-btn");btn.disabled=true;btn.textContent="⚡ Analyzing...";
+  const sum=["Owner: "+name,"Address: "+addr,g("l-eq").value&&"Equity: "+g("l-eq").value,g("l-yr").value&&"Years owned: "+g("l-yr").value,g("l-occ").value&&"Occupancy: "+g("l-occ").value,g("l-dist").value&&"Distress: "+g("l-dist").value,g("l-cond").value&&"Condition: "+g("l-cond").value,g("l-notes").value&&"Notes: "+g("l-notes").value].filter(Boolean).join("\n");
+  try{const r=await api(LP,"Analyze this wholesale lead:\n\n"+sum);renderLeadResult(r,addr,name);}
+  catch(e){err.style.display="block";err.textContent="Analysis failed. Please try again.";}
+  btn.disabled=false;btn.textContent="⚡ Analyze Lead";
 }
-function Fld({label,req,children}) { return <div style={{marginBottom:13}}><Lbl req={req}>{label}</Lbl>{children}</div>; }
-
-function Btn({onClick,disabled,children,variant="primary",small,full}) {
-  const bg = disabled?"#1a1630":variant==="primary"?"linear-gradient(135deg,#7c6fff,#c084fc)":variant==="danger"?"#2a0a0a":variant==="success"?"linear-gradient(135deg,#00d08420,#00d08440)":"#1a1630";
-  const col = disabled?"#3a3060":variant==="danger"?"#ff4d4d":variant==="success"?"#00d084":"#fff";
-  return (
-    <button onClick={onClick} disabled={disabled} style={{background:bg,border:variant==="success"?"1px solid #00d08466":"none",borderRadius:small?6:10,padding:small?"5px 10px":"12px 18px",color:col,fontSize:small?12:14,fontWeight:700,fontFamily:"'DM Sans',sans-serif",cursor:disabled?"not-allowed":"pointer",width:full?"100%":"auto",transition:"opacity 0.2s",letterSpacing:0.5}}>
-      {children}
-    </button>
-  );
+function renderLeadResult(r,addr,name){
+  const sc=r.score>=8?"#ff4d4d":r.score>=5?"#f5a623":"#4d9fff";
+  const el=g("lead-result");el.style.display="block";el.className="fade-up";
+  const secs=[{k:"op",l:"Opener",arr:false,c:r.script?.opener},{k:"vp",l:"Value Prop",arr:false,c:r.script?.value_prop},{k:"qq",l:"Qualifying Questions",arr:true,c:r.script?.qualifying_questions},{k:"oh",l:"Objection Handler",arr:false,c:r.script?.objection_handler},{k:"cl",l:"Close",arr:false,c:r.script?.close}];
+  el.innerHTML=`<div class="card" style="border-color:${sc}44;margin-bottom:14px"><div class="row" style="gap:16px;align-items:center"><div style="text-align:center;min-width:70px"><div class="snw" style="color:${sc}">${r.score}</div><div class="stag" style="color:${sc}">${esc(r.score_label||"").toUpperCase()}</div></div><div style="flex:1">${(r.motivation_reasons||[]).map(x=>`<div class="row" style="gap:7px;margin-bottom:5px;align-items:flex-start"><span style="color:#7c6fff">✓</span><span style="color:#b0a8e0;font-size:13px;line-height:1.5">${esc(x)}</span></div>`).join("")}${(r.watch_outs||[]).map(x=>`<div class="row" style="gap:7px;margin-bottom:5px;align-items:flex-start"><span style="color:#f5a623">⚠</span><span style="color:#8a7a60;font-size:13px;line-height:1.5">${esc(x)}</span></div>`).join("")}</div></div></div><button class="btn bs bfw" style="margin-bottom:14px" onclick="saveLP('${esc(addr)}','${esc(name)}',${r.score},'${esc(r.score_label||"")}',event)">+ Save to Pipeline</button><div class="card"><div class="st">📞 Cold Call Script</div>${secs.map(s=>`<div class="ai"><button class="ab" onclick="toggleAcc('${s.k}')"><span>${s.l}</span><span class="aic" id="aic-${s.k}">+</span></button><div class="abd" id="abd-${s.k}">${s.arr?(s.c||[]).map((item,i)=>`<div class="row" style="gap:8px;margin-bottom:7px;align-items:flex-start"><span style="color:#7c6fff;font-weight:800;font-size:12px">${i+1}.</span><span style="color:#c0b8e8;font-size:13px;line-height:1.6">${esc(item)}</span></div>`).join(""):`<p style="color:#c0b8e8;font-size:13px;line-height:1.7;font-style:italic">"${esc(s.c||"")}"</p>`}</div></div>`).join("")}</div>`;
 }
-
-function Card({children,accent,style:s}) {
-  return <div style={{background:"rgba(255,255,255,0.025)",border:`1px solid ${accent?accent+"44":"#1e1a3a"}`,borderRadius:14,padding:18,...s}}>{children}</div>;
-}
-function SecTitle({children}) {
-  return <div style={{color:"#4a4070",fontSize:10,fontWeight:700,letterSpacing:2.5,textTransform:"uppercase",marginBottom:14}}>{children}</div>;
-}
-
-// ── TAB BAR ────────────────────────────────────────────────────────────────
-function TabBar({tabs,active,onChange}) {
-  return (
-    <div style={{display:"flex",background:"#08071a",borderRadius:12,padding:4,marginBottom:22,gap:3}}>
-      {tabs.map(t=>(
-        <button key={t.id} onClick={()=>onChange(t.id)} style={{flex:1,padding:"10px 4px",borderRadius:9,border:"none",cursor:"pointer",background:active===t.id?"linear-gradient(135deg,#7c6fff22,#c084fc22)":"transparent",borderTop:active===t.id?"1px solid #7c6fff66":"1px solid transparent",color:active===t.id?"#c084fc":"#3a3060",fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:10,letterSpacing:0.5,transition:"all 0.2s",display:"flex",flexDirection:"column",alignItems:"center",gap:3}}>
-          <span style={{fontSize:16}}>{t.icon}</span><span>{t.label}</span>
-        </button>
-      ))}
-    </div>
-  );
+function toggleAcc(k){const b=g("abd-"+k),ic=g("aic-"+k);const o=b.classList.toggle("open");ic.style.transform=o?"rotate(45deg)":"none";}
+function saveLP(addr,name,score,label,ev){
+  deals.push({id:uid(),name:addr||name||"New Lead",startDate:td(),stage:1,marketingSpent:0,expectedFee:0,phone:"",notes:"",leadScore:score,leadLabel:label});
+  const btn=ev.target;btn.textContent="✓ Saved!";btn.disabled=true;btn.style.background="rgba(0,208,132,.1)";btn.style.color="#00d084";
+  renderOverview();
 }
 
-// ── OVERVIEW ───────────────────────────────────────────────────────────────
-function Overview({deals,expenses}) {
-  const spent = expenses.reduce((s,e)=>s+Number(e.amount||0),0)+deals.reduce((s,d)=>s+Number(d.marketingSpent||0),0);
-  const pipeline = deals.filter(d=>d.stage<4).reduce((s,d)=>s+Number(d.expectedFee||0),0);
-  const closed = deals.filter(d=>d.stage===4).reduce((s,d)=>s+Number(d.expectedFee||0),0);
-  const hot = deals.filter(d=>d.leadScore>=8).length;
-  const avgDays = deals.length ? Math.round(deals.reduce((s,d)=>s+daysSince(d.startDate),0)/deals.length) : 0;
-  const stats = [
-    {l:"Total Spent",v:fmtMoney(spent),c:"#ff4d6d",i:"💸"},
-    {l:"Pipeline",v:fmtMoney(pipeline),c:"#f5a623",i:"📊"},
-    {l:"Closed",v:fmtMoney(closed),c:"#00d084",i:"✅"},
-    {l:"Hot Leads",v:hot,c:"#c084fc",i:"🔥"},
-    {l:"Avg Deal Age",v:`${avgDays}d`,c:"#4d9fff",i:"⏱"},
-    {l:"Total Deals",v:deals.length,c:"#fff",i:"🎯"},
-  ];
-  return (
-    <div>
-      <div style={{marginBottom:22}}>
-        <div style={{color:"#7c6fff",fontSize:10,fontWeight:700,letterSpacing:3,textTransform:"uppercase",marginBottom:6}}>Command Center</div>
-        <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:36,color:"#fff",lineHeight:1.1,letterSpacing:1}}>
-          Wholesaler <span style={{background:"linear-gradient(90deg,#7c6fff,#c084fc)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>OS</span>
-        </div>
-      </div>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:20}}>
-        {stats.map(s=>(
-          <Card key={s.l} accent={s.c} style={{display:"flex",alignItems:"center",gap:12,padding:"13px 15px"}}>
-            <span style={{fontSize:20}}>{s.i}</span>
-            <div>
-              <div style={{color:s.c,fontSize:20,fontWeight:800,lineHeight:1}}>{s.v}</div>
-              <div style={{color:"#3a3060",fontSize:9,fontWeight:700,letterSpacing:1.5,textTransform:"uppercase",marginTop:3}}>{s.l}</div>
-            </div>
-          </Card>
-        ))}
-      </div>
-      <Card accent={spent>400?"#ff4d4d":"#00d084"} style={{marginBottom:20,display:"flex",gap:12,alignItems:"flex-start"}}>
-        <span style={{fontSize:22}}>{spent>400?"⚠️":"✅"}</span>
-        <div>
-          <div style={{color:spent>400?"#ff4d4d":"#00d084",fontWeight:700,fontSize:13,marginBottom:4}}>{spent>400?"Budget getting tight — watch your runway":"Cash runway looks healthy"}</div>
-          <div style={{color:"#3a3060",fontSize:12,lineHeight:1.6}}>Keep at least $500 unspent. Deals take 45–75 days to close — you need 3 months of marketing budget in reserve.</div>
-        </div>
-      </Card>
-      {deals.length>0 && <>
-        <SecTitle>Recent Deals</SecTitle>
-        {deals.slice(-3).reverse().map(d=>{
-          const days=daysSince(d.startDate);
-          return (
-            <Card key={d.id} style={{marginBottom:10,padding:"12px 16px"}}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:8,flexWrap:"wrap"}}>
-                <div>
-                  <div style={{color:"#e8e0ff",fontWeight:700,fontSize:14}}>{d.name||"Unnamed"}</div>
-                  <div style={{color:"#3a3060",fontSize:12,marginTop:2}}>{STAGES[d.stage]} · {days}d in pipeline</div>
-                </div>
-                <div style={{textAlign:"right"}}>
-                  {d.leadScore && <div style={{color:d.leadScore>=8?"#ff4d4d":d.leadScore>=5?"#f5a623":"#4d9fff",fontWeight:800,fontSize:12}}>Score: {d.leadScore}/10</div>}
-                  <div style={{color:"#00d084",fontSize:12}}>{fmtMoney(d.expectedFee)}</div>
-                </div>
-              </div>
-              <div style={{marginTop:10,height:3,background:"#1a1630",borderRadius:2}}>
-                <div style={{height:"100%",width:`${(d.stage/4)*100}%`,background:"linear-gradient(90deg,#7c6fff,#c084fc)",borderRadius:2,transition:"width 0.5s"}} />
-              </div>
-            </Card>
-          );
-        })}
-      </>}
-      {deals.length===0 && <Card style={{textAlign:"center",padding:"32px 20px"}}><div style={{fontSize:32,marginBottom:10}}>🏘️</div><div style={{color:"#3a3060",fontSize:14}}>No deals yet — score a lead to get started</div></Card>}
-    </div>
-  );
+// ── EXIT AI
+async function analyzeExit(){
+  const addr=g("e-addr").value.trim();
+  const err=g("exit-err");
+  if(!addr){err.style.display="block";err.textContent="Property address required.";return;}
+  err.style.display="none";
+  const btn=g("exit-btn");btn.disabled=true;btn.textContent="⚡ Analyzing...";
+  const sum=["Address: "+addr,g("e-arv").value&&"ARV: $"+g("e-arv").value,g("e-ask").value&&"Asking: $"+g("e-ask").value,g("e-rep").value&&"Repairs: $"+g("e-rep").value,g("e-sit").value&&"Seller: "+g("e-sit").value,g("e-mort").value&&"Mortgage: "+g("e-mort").value,g("e-cond").value&&"Condition: "+g("e-cond").value,g("e-buy").value&&"Buyers: "+g("e-buy").value,g("e-notes").value&&"Notes: "+g("e-notes").value].filter(Boolean).join("\n");
+  try{const r=await api(EP,"Analyze exit strategies:\n\n"+sum);renderExitResult(r);}
+  catch(e){err.style.display="block";err.textContent="Analysis failed. Please try again.";}
+  btn.disabled=false;btn.textContent="⚡ Find Best Exit";
 }
-
-// ── LEAD ANALYZER ──────────────────────────────────────────────────────────
-function LeadAnalyzer({onSaveDeal}) {
-  const [form,setForm]=useState({name:"",address:"",equity:"",ownership_length:"",occupancy:"",distress_flags:"",property_condition:"",other_notes:""});
-  const [loading,setLoading]=useState(false);
-  const [result,setResult]=useState(null);
-  const [error,setError]=useState(null);
-  const [saved,setSaved]=useState(false);
-  const [openSec,setOpenSec]=useState("opener");
-  const set=k=>e=>setForm(p=>({...p,[k]:e.target.value}));
-
-  const analyze=async()=>{
-    if(!form.name||!form.address){setError("Owner name and address required.");return;}
-    setError(null);setLoading(true);setResult(null);setSaved(false);
-    const summary=Object.entries(form).map(([k,v])=>v?`${k.replace(/_/g," ")}: ${v}`:null).filter(Boolean).join("\n");
-    try { const r=await callClaude(LEAD_PROMPT,`Analyze this wholesale lead:\n\n${summary}`); setResult(r); }
-    catch { setError("Analysis failed. Please try again."); }
-    setLoading(false);
-  };
-
-  const save=()=>{
-    onSaveDeal({id:uid(),name:form.address||form.name,startDate:new Date().toISOString().split("T")[0],stage:1,marketingSpent:0,expectedFee:0,notes:form.distress_flags||"",leadScore:result?.score,leadLabel:result?.score_label});
-    setSaved(true);
-  };
-
-  const sc=result?(result.score>=8?"#ff4d4d":result.score>=5?"#f5a623":"#4d9fff"):"#7c6fff";
-  const secs=[
-    {k:"opener",l:"Opener",content:result?.script?.opener,arr:false},
-    {k:"value_prop",l:"Value Prop",content:result?.script?.value_prop,arr:false},
-    {k:"qualifying_questions",l:"Qualifying Questions",content:result?.script?.qualifying_questions,arr:true},
-    {k:"objection_handler",l:"Objection Handler",content:result?.script?.objection_handler,arr:false},
-    {k:"close",l:"Close",content:result?.script?.close,arr:false},
-  ];
-
-  return (
-    <div>
-      <SecTitle>Lead Intelligence Agent</SecTitle>
-      <Card style={{marginBottom:16}}>
-        {[{k:"name",l:"Owner Name",req:true,p:"John Smith"},{k:"address",l:"Property Address",req:true,p:"123 Oak St, Dallas TX"},{k:"equity",l:"Estimated Equity",p:"65% / $120k"},{k:"ownership_length",l:"Years Owned",p:"12 years"},{k:"occupancy",l:"Occupancy",p:"Absentee / Vacant / Owner-occupied"},{k:"distress_flags",l:"Distress Flags",p:"Tax delinquent, pre-foreclosure..."},{k:"property_condition",l:"Property Condition",p:"Needs major repairs..."},{k:"other_notes",l:"Other Notes",p:"Any extra context..."}].map(f=>(
-          <Fld key={f.k} label={f.l} req={f.req}><Inp value={form[f.k]} onChange={set(f.k)} placeholder={f.p}/></Fld>
-        ))}
-        {error&&<div style={{color:"#ff4d4d",fontSize:13,marginBottom:12,padding:"8px 12px",background:"rgba(255,77,77,0.08)",borderRadius:8}}>{error}</div>}
-        <Btn onClick={analyze} disabled={loading} full>{loading?"⚡ Analyzing...":"⚡ Analyze Lead"}</Btn>
-      </Card>
-
-      {result&&(
-        <div className="fade-up">
-          <Card accent={sc} style={{marginBottom:14,display:"flex",alignItems:"center",gap:16}}>
-            <div style={{textAlign:"center",minWidth:70}}>
-              <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:44,color:sc,lineHeight:1}}>{result.score}</div>
-              <div style={{color:sc,fontSize:11,fontWeight:700,letterSpacing:2}}>{result.score_label?.toUpperCase()}</div>
-            </div>
-            <div style={{flex:1}}>
-              {result.motivation_reasons?.map((r,i)=><div key={i} style={{display:"flex",gap:7,marginBottom:5,alignItems:"flex-start"}}><span style={{color:"#7c6fff",fontSize:13}}>✓</span><span style={{color:"#b0a8e0",fontSize:13,lineHeight:1.5}}>{r}</span></div>)}
-              {result.watch_outs?.map((r,i)=><div key={i} style={{display:"flex",gap:7,marginBottom:5,alignItems:"flex-start"}}><span style={{color:"#f5a623",fontSize:13}}>⚠</span><span style={{color:"#8a7a60",fontSize:13,lineHeight:1.5}}>{r}</span></div>)}
-            </div>
-          </Card>
-          {!saved
-            ? <div style={{marginBottom:14}}><Btn onClick={save} variant="success" full>+ Save to Pipeline</Btn></div>
-            : <div style={{textAlign:"center",color:"#00d084",fontWeight:700,fontSize:13,marginBottom:14,padding:"10px",background:"#00d08411",borderRadius:10}}>✓ Saved to Pipeline</div>
-          }
-          <Card>
-            <SecTitle>📞 Cold Call Script</SecTitle>
-            {secs.map(s=>(
-              <div key={s.k} style={{borderBottom:"1px solid #1a1630"}}>
-                <button onClick={()=>setOpenSec(openSec===s.k?null:s.k)} style={{width:"100%",background:"none",border:"none",cursor:"pointer",display:"flex",justifyContent:"space-between",alignItems:"center",padding:"11px 0",color:"#8a80c0",fontFamily:"'DM Sans',sans-serif",fontSize:12,fontWeight:700,letterSpacing:1.5,textTransform:"uppercase"}}>
-                  {s.l}<span style={{color:"#7c6fff",fontSize:16,transition:"transform 0.2s",display:"inline-block",transform:openSec===s.k?"rotate(45deg)":"none"}}>+</span>
-                </button>
-                {openSec===s.k&&(
-                  <div style={{paddingBottom:12}}>
-                    {s.arr
-                      ? s.content?.map((item,i)=><div key={i} style={{display:"flex",gap:8,marginBottom:7}}><span style={{color:"#7c6fff",fontWeight:800,fontSize:12}}>{i+1}.</span><span style={{color:"#c0b8e8",fontSize:13,lineHeight:1.6}}>{item}</span></div>)
-                      : <p style={{color:"#c0b8e8",fontSize:13,lineHeight:1.7,margin:0,fontStyle:"italic"}}>"{s.content}"</p>
-                    }
-                  </div>
-                )}
-              </div>
-            ))}
-          </Card>
-        </div>
-      )}
-    </div>
-  );
+function renderExitResult(r){
+  const el=g("exit-result");el.style.display="block";el.className="fade-up";
+  el.innerHTML=`<div class="al ay" style="margin-bottom:14px"><span style="font-size:20px">🎯</span><div><div style="color:#f5a623;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">First Move Tomorrow</div><div style="color:#d4a060;font-size:13px;line-height:1.6">${esc(r.best_first_move||"")}</div></div></div><div class="st">Ranked Exits</div>${(r.ranked_exits||[]).map((exit,i)=>{const color=SC[exit.strategy]||"#7c6fff";const icon=SI[exit.strategy]||"📌";return`<div class="ec" style="border-color:${i===0?color+"66":"#1e1a3a"}"><button class="eh" onclick="toggleExit(${i})"><span>${i===0?`<span class="topb" style="background:${color}">TOP</span>`:""}</span><span style="font-size:18px">${icon}</span><div style="flex:1"><div style="color:#e8e0ff;font-weight:700;font-size:13px">${esc(exit.strategy)}</div><div class="ep"><div class="epb" style="width:${(exit.fit_score||0)*10}%;background:${color}"></div></div></div><span style="color:${color};font-weight:800;font-size:13px">${exit.fit_score}/10</span><span style="color:#3a3060;margin-left:4px" id="ech-${i}">▾</span></button><div class="ebo${i===0?" open":""}" id="ebo-${i}"><p style="color:#a0a0c0;font-size:13px;line-height:1.7;margin-top:12px">${esc(exit.why_it_fits||"")}</p><div style="margin:12px 0 0"><div style="color:#3a3060;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Steps</div>${(exit.how_to_execute||[]).map((step,j)=>`<div class="row" style="gap:10px;margin-bottom:7px;align-items:flex-start"><div class="stpc" style="background:${color}22;border:1px solid ${color}66;color:${color}">${j+1}</div><span style="color:#c0b8e0;font-size:13px;line-height:1.6">${esc(step)}</span></div>`).join("")}</div><div class="wo"><span>⚠️</span><span class="wot">${esc(exit.watch_out||"")}</span></div></div></div>`;}).join("")}${r.dead_ends?.length?`<div class="card" style="margin-top:4px"><div class="st">Won't Work for This Deal</div>${r.dead_ends.map(d=>`<div class="row" style="gap:8px;margin-bottom:6px"><span style="color:#3a3060">✕</span><span style="color:#3a3060;font-size:13px">${esc(d)}</span></div>`).join("")}</div>`:""}`;
 }
+function toggleExit(i){const b=g("ebo-"+i),ch=g("ech-"+i);const o=b.classList.toggle("open");ch.style.transform=o?"rotate(180deg)":"none";}
 
-// ── EXIT MATCHER ───────────────────────────────────────────────────────────
-function ExitMatcher() {
-  const [form,setForm]=useState({});
-  const [loading,setLoading]=useState(false);
-  const [result,setResult]=useState(null);
-  const [error,setError]=useState(null);
-  const [openExit,setOpenExit]=useState(null);
-  const set=k=>e=>setForm(p=>({...p,[k]:e.target.value}));
-
-  const analyze=async()=>{
-    if(!form.address){setError("Property address required.");return;}
-    setError(null);setLoading(true);setResult(null);
-    const summary=[form.address&&`Address: ${form.address}`,form.arv&&`ARV: $${form.arv}`,form.asking&&`Asking: $${form.asking}`,form.repairs&&`Repairs: $${form.repairs}`,form.situation&&`Seller: ${form.situation}`,form.mortgage&&`Mortgage: $${form.mortgage}`,form.condition&&`Condition: ${form.condition}`,form.buyers&&`Buyers: ${form.buyers}`,form.notes&&`Notes: ${form.notes}`].filter(Boolean).join("\n");
-    try { const r=await callClaude(EXIT_PROMPT,`Analyze exit strategies:\n\n${summary}`); setResult(r); setOpenExit(0); }
-    catch { setError("Analysis failed. Please try again."); }
-    setLoading(false);
-  };
-
-  return (
-    <div>
-      <SecTitle>Exit Strategy Matcher</SecTitle>
-      <Card style={{marginBottom:16}}>
-        {[{k:"address",l:"Property Address",req:true,p:"123 Oak St, Dallas TX"},{k:"arv",l:"ARV ($)",p:"250000",t:"number"},{k:"asking",l:"Seller Asking ($)",p:"140000",t:"number"},{k:"repairs",l:"Est. Repairs ($)",p:"45000",t:"number"},{k:"situation",l:"Seller's Situation",p:"Pre-foreclosure, inherited, tired landlord..."},{k:"mortgage",l:"Mortgage Balance",p:"85000 or paid off"},{k:"condition",l:"Property Condition",p:"Needs full rehab / cosmetic / move-in ready"},{k:"buyers",l:"Your Buyer Network",p:"Strong / limited / none yet"},{k:"notes",l:"Other Notes",p:"Vacant, HOA, title issues..."}].map(f=>(
-          <Fld key={f.k} label={f.l} req={f.req}><Inp value={form[f.k]||""} onChange={set(f.k)} placeholder={f.p} type={f.t||"text"}/></Fld>
-        ))}
-        {error&&<div style={{color:"#ff4d4d",fontSize:13,marginBottom:12,padding:"8px 12px",background:"rgba(255,77,77,0.08)",borderRadius:8}}>{error}</div>}
-        <Btn onClick={analyze} disabled={loading} full>{loading?"⚡ Analyzing...":"⚡ Find Best Exit"}</Btn>
-      </Card>
-
-      {result&&(
-        <div className="fade-up">
-          <Card accent="#f5a623" style={{marginBottom:14,display:"flex",gap:12,alignItems:"flex-start"}}>
-            <span style={{fontSize:20}}>🎯</span>
-            <div>
-              <div style={{color:"#f5a623",fontSize:10,fontWeight:700,letterSpacing:2,textTransform:"uppercase",marginBottom:4}}>First Move Tomorrow</div>
-              <div style={{color:"#d4a060",fontSize:13,lineHeight:1.6}}>{result.best_first_move}</div>
-            </div>
-          </Card>
-          <SecTitle>Ranked Exits</SecTitle>
-          {result.ranked_exits?.map((exit,i)=>{
-            const color=STRATEGY_COLORS[exit.strategy]||"#7c6fff";
-            const icon=STRATEGY_ICONS[exit.strategy]||"📌";
-            const isOpen=openExit===i;
-            return (
-              <Card key={exit.strategy} accent={i===0?color:null} style={{marginBottom:10,padding:0,overflow:"hidden"}}>
-                <button onClick={()=>setOpenExit(isOpen?null:i)} style={{width:"100%",background:"none",border:"none",cursor:"pointer",padding:"14px 16px",display:"flex",alignItems:"center",gap:10,textAlign:"left"}}>
-                  {i===0&&<div style={{background:color,color:"#000",fontSize:8,fontWeight:800,letterSpacing:1.5,padding:"3px 6px",borderRadius:4,textTransform:"uppercase",flexShrink:0}}>TOP</div>}
-                  <span style={{fontSize:18}}>{icon}</span>
-                  <div style={{flex:1}}>
-                    <div style={{color:"#e8e0ff",fontWeight:700,fontSize:13}}>{exit.strategy}</div>
-                    <div style={{height:4,background:"#1a1630",borderRadius:2,marginTop:5,overflow:"hidden"}}>
-                      <div style={{height:"100%",width:`${exit.fit_score*10}%`,background:color,borderRadius:2}}/>
-                    </div>
-                  </div>
-                  <span style={{color,fontWeight:800,fontSize:13}}>{exit.fit_score}/10</span>
-                  <span style={{color:"#3a3060",transition:"transform 0.2s",display:"inline-block",transform:isOpen?"rotate(180deg)":"none"}}>▾</span>
-                </button>
-                {isOpen&&(
-                  <div style={{padding:"0 16px 16px",borderTop:"1px solid #1a1630"}}>
-                    <p style={{color:"#a0a0c0",fontSize:13,lineHeight:1.7,marginTop:12}}>{exit.why_it_fits}</p>
-                    <div style={{marginBottom:12}}>
-                      <div style={{color:"#3a3060",fontSize:10,fontWeight:700,letterSpacing:2,textTransform:"uppercase",marginBottom:8}}>Steps</div>
-                      {exit.how_to_execute?.map((step,j)=>(
-                        <div key={j} style={{display:"flex",gap:10,marginBottom:7,alignItems:"flex-start"}}>
-                          <div style={{minWidth:20,height:20,borderRadius:"50%",background:color+"22",border:`1px solid ${color}66`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:9,fontWeight:800,color,flexShrink:0}}>{j+1}</div>
-                          <span style={{color:"#c0b8e0",fontSize:13,lineHeight:1.6}}>{step}</span>
-                        </div>
-                      ))}
-                    </div>
-                    <div style={{background:"rgba(245,166,35,0.06)",border:"1px solid #f5a62333",borderRadius:8,padding:"9px 12px",display:"flex",gap:8}}>
-                      <span>⚠️</span><span style={{color:"#a07840",fontSize:12,lineHeight:1.6}}>{exit.watch_out}</span>
-                    </div>
-                  </div>
-                )}
-              </Card>
-            );
-          })}
-          {result.dead_ends?.length>0&&(
-            <Card style={{marginTop:4}}>
-              <SecTitle>Won't Work for This Deal</SecTitle>
-              {result.dead_ends.map((d,i)=><div key={i} style={{display:"flex",gap:8,marginBottom:6}}><span style={{color:"#3a3060"}}>✕</span><span style={{color:"#3a3060",fontSize:13}}>{d}</span></div>)}
-            </Card>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ── PIPELINE ───────────────────────────────────────────────────────────────
-function Pipeline({deals,setDeals,expenses,setExpenses}) {
-  const [modal,setModal]=useState(null);
-  const [subTab,setSubTab]=useState("deals");
-  const [newExp,setNewExp]=useState({label:"",amount:"",date:new Date().toISOString().split("T")[0]});
-
-  const spent = expenses.reduce((s,e)=>s+Number(e.amount||0),0)+deals.reduce((s,d)=>s+Number(d.marketingSpent||0),0);
-  const closed = deals.filter(d=>d.stage===4).reduce((s,d)=>s+Number(d.expectedFee||0),0);
-  const pipeline = deals.filter(d=>d.stage<4).reduce((s,d)=>s+Number(d.expectedFee||0),0);
-
-  const saveDeal=f=>{
-    const d={...f,marketingSpent:Number(f.marketingSpent)||0,expectedFee:Number(f.expectedFee)||0};
-    setDeals(p=>d.id&&p.find(x=>x.id===d.id)?p.map(x=>x.id===d.id?d:x):[...p,{...d,id:uid()}]);
-    setModal(null);
-  };
-
-  const addExp=()=>{
-    if(!newExp.label||!newExp.amount)return;
-    setExpenses(p=>[...p,{...newExp,id:uid(),amount:Number(newExp.amount)}]);
-    setNewExp({label:"",amount:"",date:new Date().toISOString().split("T")[0]});
-  };
-
-  return (
-    <div>
-      <SecTitle>Cash Conversion Tracker</SecTitle>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,marginBottom:16}}>
-        {[{l:"Spent",v:fmtMoney(spent),c:"#ff4d4d"},{l:"Pipeline",v:fmtMoney(pipeline),c:"#f5a623"},{l:"Closed",v:fmtMoney(closed),c:"#00d084"}].map(s=>(
-          <Card key={s.l} accent={s.c} style={{padding:"12px 10px"}}>
-            <div style={{color:s.c,fontSize:17,fontWeight:800}}>{s.v}</div>
-            <div style={{color:"#3a3060",fontSize:9,fontWeight:700,letterSpacing:1.5,textTransform:"uppercase",marginTop:3}}>{s.l}</div>
-          </Card>
-        ))}
-      </div>
-
-      <div style={{display:"flex",background:"#08071a",borderRadius:10,padding:3,marginBottom:16,gap:3}}>
-        {["deals","expenses"].map(t=>(
-          <button key={t} onClick={()=>setSubTab(t)} style={{flex:1,padding:"8px",borderRadius:8,border:"none",cursor:"pointer",background:subTab===t?"#1e1a3a":"transparent",color:subTab===t?"#c084fc":"#3a3060",fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:12}}>
-            {t==="deals"?"📋 Deals":"💸 Expenses"}
-          </button>
-        ))}
-      </div>
-
-      {subTab==="deals"&&(
-        <div>
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-            <span style={{color:"#3a3060",fontSize:12}}>{deals.length} deal{deals.length!==1?"s":""}</span>
-            <Btn small onClick={()=>setModal({id:null,name:"",startDate:new Date().toISOString().split("T")[0],stage:0,marketingSpent:"",expectedFee:"",notes:""})}>+ Add Deal</Btn>
-          </div>
-          {deals.length===0&&<Card style={{textAlign:"center",padding:"28px 16px",color:"#3a3060",fontSize:13}}>No deals yet — score a lead and save it to pipeline</Card>}
-          {deals.map(d=>{
-            const days=daysSince(d.startDate);
-            const urg=days>75?"#ff4d4d":days>45?"#f5a623":"#00d084";
-            return (
-              <Card key={d.id} style={{marginBottom:10,padding:"13px 15px"}}>
-                <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:8,marginBottom:10}}>
-                  <div>
-                    <div style={{color:"#e8e0ff",fontWeight:700,fontSize:14}}>{d.name||"Unnamed"}</div>
-                    {d.leadScore&&<div style={{color:d.leadScore>=8?"#ff4d4d":d.leadScore>=5?"#f5a623":"#4d9fff",fontSize:11,fontWeight:700,marginTop:2}}>Score: {d.leadScore}/10 · {d.leadLabel}</div>}
-                    {d.notes&&<div style={{color:"#3a3060",fontSize:12,marginTop:2}}>{d.notes}</div>}
-                  </div>
-                  <div style={{display:"flex",gap:6,flexShrink:0}}>
-                    <Btn small onClick={()=>setModal(d)}>Edit</Btn>
-                    <Btn small variant="danger" onClick={()=>setDeals(p=>p.filter(x=>x.id!==d.id))}>✕</Btn>
-                  </div>
-                </div>
-                <div style={{display:"flex",justifyContent:"space-between",marginBottom:5}}>
-                  {STAGES.map((s,i)=><div key={i} style={{fontSize:8,color:i<=d.stage?"#7c6fff":"#2a2040",fontWeight:700,flex:1,textAlign:"center"}}>{s}</div>)}
-                </div>
-                <div style={{height:3,background:"#1a1630",borderRadius:2,marginBottom:10,overflow:"hidden"}}>
-                  <div style={{height:"100%",width:`${(d.stage/4)*100}%`,background:"linear-gradient(90deg,#7c6fff,#c084fc)",borderRadius:2}}/>
-                </div>
-                <div style={{display:"flex",gap:14,flexWrap:"wrap"}}>
-                  <span style={{fontSize:12}}><span style={{color:"#3a3060"}}>Days: </span><span style={{color:urg,fontWeight:700}}>{days}d</span></span>
-                  <span style={{fontSize:12}}><span style={{color:"#3a3060"}}>Spent: </span><span style={{color:"#ff4d4d",fontWeight:700}}>-{fmtMoney(d.marketingSpent)}</span></span>
-                  <span style={{fontSize:12}}><span style={{color:"#3a3060"}}>Expected: </span><span style={{color:"#00d084",fontWeight:700}}>+{fmtMoney(d.expectedFee)}</span></span>
-                </div>
-              </Card>
-            );
-          })}
-        </div>
-      )}
-
-      {subTab==="expenses"&&(
-        <div>
-          <Card style={{marginBottom:14}}>
-            <SecTitle>Add Expense</SecTitle>
-            <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-              <div style={{flex:2,minWidth:120}}><Inp value={newExp.label} onChange={e=>setNewExp(p=>({...p,label:e.target.value}))} placeholder="PropStream, skip tracing..."/></div>
-              <div style={{width:80}}><Inp value={newExp.amount} onChange={e=>setNewExp(p=>({...p,amount:e.target.value}))} placeholder="$" type="number"/></div>
-              <Btn onClick={addExp}>Add</Btn>
-            </div>
-          </Card>
-          {expenses.map(e=>(
-            <Card key={e.id} style={{marginBottom:8,padding:"11px 15px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-              <div><div style={{color:"#e8e0ff",fontSize:14,fontWeight:600}}>{e.label}</div><div style={{color:"#3a3060",fontSize:11}}>{e.date}</div></div>
-              <div style={{display:"flex",gap:10,alignItems:"center"}}>
-                <span style={{color:"#ff4d4d",fontWeight:700}}>-{fmtMoney(e.amount)}</span>
-                <Btn small variant="danger" onClick={()=>setExpenses(p=>p.filter(x=>x.id!==e.id))}>✕</Btn>
-              </div>
-            </Card>
-          ))}
-          <div style={{borderTop:"1px solid #1a1630",paddingTop:12,marginTop:8,display:"flex",justifyContent:"space-between"}}>
-            <span style={{color:"#3a3060",fontWeight:700,fontSize:13}}>Total Overhead</span>
-            <span style={{color:"#ff4d4d",fontWeight:800,fontSize:15}}>-{fmtMoney(expenses.reduce((s,e)=>s+Number(e.amount||0),0))}</span>
-          </div>
-        </div>
-      )}
-
-      {modal&&(
-        <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.88)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:200,padding:16}}>
-          <div style={{background:"#0c0b1e",border:"1px solid #2a2040",borderRadius:16,padding:22,width:"100%",maxWidth:420,maxHeight:"90vh",overflowY:"auto"}}>
-            <div style={{fontSize:18,fontWeight:800,color:"#e8e0ff",marginBottom:18}}>{modal.id?"Edit Deal":"Add Deal"}</div>
-            {[{k:"name",l:"Deal Name / Address"},{k:"startDate",l:"Start Date",t:"date"},{k:"marketingSpent",l:"Marketing Spent ($)",t:"number"},{k:"expectedFee",l:"Expected Fee ($)",t:"number"},{k:"notes",l:"Notes"}].map(f=>(
-              <Fld key={f.k} label={f.l}><Inp type={f.t||"text"} value={modal[f.k]||""} onChange={e=>setModal(p=>({...p,[f.k]:e.target.value}))} placeholder=""/></Fld>
-            ))}
-            <Fld label="Stage">
-              <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
-                {STAGES.map((s,i)=>(
-                  <button key={i} onClick={()=>setModal(p=>({...p,stage:i}))} style={{padding:"6px 10px",borderRadius:6,fontSize:11,fontWeight:700,cursor:"pointer",background:modal.stage===i?"#7c6fff":"#1a1630",color:modal.stage===i?"#fff":"#4a4070",border:`1px solid ${modal.stage===i?"#7c6fff":"#2a2040"}`}}>{s}</button>
-                ))}
-              </div>
-            </Fld>
-            <div style={{display:"flex",gap:10,marginTop:18}}>
-              <button onClick={()=>setModal(null)} style={{flex:1,background:"#1a1630",border:"1px solid #2a2040",borderRadius:9,padding:11,color:"#4a4070",cursor:"pointer",fontFamily:"'DM Sans',sans-serif",fontWeight:700}}>Cancel</button>
-              <button onClick={()=>saveDeal(modal)} style={{flex:2,background:"linear-gradient(135deg,#7c6fff,#c084fc)",border:"none",borderRadius:9,padding:11,color:"#fff",cursor:"pointer",fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:14}}>Save</button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ── ROOT APP ───────────────────────────────────────────────────────────────
-function App() {
-  const [tab,setTab]=useState("overview");
-  const [deals,setDeals]=useState([]);
-  const [expenses,setExpenses]=useState([{id:1,label:"PropStream",amount:99,date:new Date().toISOString().split("T")[0]}]);
-  const addDeal=d=>setDeals(p=>[...p,d]);
-  const TABS=[{id:"overview",label:"Overview",icon:"🏠"},{id:"leads",label:"Lead AI",icon:"🔍"},{id:"exits",label:"Exit AI",icon:"🚪"},{id:"pipeline",label:"Pipeline",icon:"📋"}];
-
-  return (
-    <div style={{minHeight:"100vh",background:"radial-gradient(ellipse at top,#0f0d2a 0%,#06050f 60%)",fontFamily:"'DM Sans',sans-serif",color:"#e8e0ff"}}>
-      <div style={{background:"rgba(8,7,26,0.96)",borderBottom:"1px solid #1a1630",padding:"12px 16px",display:"flex",alignItems:"center",justifyContent:"space-between",position:"sticky",top:0,zIndex:100}}>
-        <div style={{display:"flex",alignItems:"center",gap:8}}>
-          <div style={{width:8,height:8,borderRadius:"50%",background:"#7c6fff",boxShadow:"0 0 10px #7c6fff"}}/>
-          <span style={{fontWeight:800,fontSize:15}}>Wholesaler <span style={{color:"#7c6fff"}}>OS</span></span>
-        </div>
-        <div style={{display:"flex",gap:6,alignItems:"center"}}>
-          <div style={{width:6,height:6,borderRadius:"50%",background:"#00d084"}}/>
-          <span style={{color:"#3a3060",fontSize:11}}>AI Powered</span>
-        </div>
-      </div>
-      <div style={{maxWidth:600,margin:"0 auto",padding:"20px 14px 100px"}}>
-        <TabBar tabs={TABS} active={tab} onChange={setTab}/>
-        {tab==="overview"&&<Overview deals={deals} expenses={expenses}/>}
-        {tab==="leads"&&<LeadAnalyzer onSaveDeal={addDeal}/>}
-        {tab==="exits"&&<ExitMatcher/>}
-        {tab==="pipeline"&&<Pipeline deals={deals} setDeals={setDeals} expenses={expenses} setExpenses={setExpenses}/>}
-      </div>
-    </div>
-  );
-}
-
-ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+renderOverview();
 </script>
 </body>
 </html>
